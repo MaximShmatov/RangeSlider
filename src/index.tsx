@@ -1,17 +1,21 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import './index.css';
-import App from './App';
+import {Provider} from 'react-redux';
+import store from './index-store';
+import ControlPanel from './control-panel/control-panel';
 import reportWebVitals from './reportWebVitals';
+import './index.sass';
 
 ReactDOM.render(
   <React.StrictMode>
-    <App />
+    <Provider store={store}>
+      <ControlPanel rangeSliderId={0}/>
+      <ControlPanel rangeSliderId={1}/>
+      <ControlPanel rangeSliderId={2}/>
+      <ControlPanel rangeSliderId={3}/>
+    </Provider>
   </React.StrictMode>,
-  document.getElementById('root')
+  document.querySelector('.app-main')
 );
 
-// If you want to start measuring performance in your app, pass a function
-// to log results (for example: reportWebVitals(console.log))
-// or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
 reportWebVitals();
