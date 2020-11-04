@@ -1,17 +1,20 @@
-import React, {createContext, useContext, useMemo, useRef, useState} from 'react';
-import {useRangeSliderStore, useRangeSliderStoreProp} from '../index-store';
+import React, {createContext, useContext, useRef, useState} from 'react';
+import {mapRangeSliderSelector, useMapRangeSliderDispatch} from '../index-store';
 import stylesHor from './range-slider-hor.module.sass';
 import stylesVer from './range-slider-ver.module.sass';
 
 const Context = createContext(stylesHor);
 
 const RangeSliderThumb = ({thumbFor}: { thumbFor: 'valueFrom' | 'valueTo' }) => {
+  console.count(`thumb-${thumbFor}`);
   const [styles, rangeSliderId] = useContext(Context);
-  const {getStore, setStore} = useRangeSliderStore(rangeSliderId);
-  const {minValue, maxValue, isVertical, isTooltip} = getStore;
+  const [minValue, maxValue, value] =
+    mapRangeSliderSelector<number>(rangeSliderId, ['minValue', 'maxValue', thumbFor]);
+  const [isVertical, isTooltip] = mapRangeSliderSelector<boolean>(rangeSliderId, ['isVertical', 'isTooltip']);
+  const [setValue] = useMapRangeSliderDispatch(rangeSliderId, [thumbFor]);
 
   const posToPercent = (maxValue - minValue) / 100;
-  const position = (getStore[thumbFor] - minValue) / posToPercent;
+  const position = (value - minValue) / posToPercent;
   const posThumb = {
     left: isVertical ? '0' : `${position}%`,
     top: isVertical ? `${position}%` : '0',
@@ -32,7 +35,7 @@ const RangeSliderThumb = ({thumbFor}: { thumbFor: 'valueFrom' | 'valueTo' }) => 
       const widthOrHeight = isVertical ? rect.height : rect.width;
       const percentToPos = (clientXorY - offsetXorY) / (widthOrHeight / 100);
       const thumbValue = percentToPos * posToPercent + minValue;
-      setStore[thumbFor](thumbValue);
+      setValue(thumbValue);
     }
   }
 
@@ -48,15 +51,17 @@ const RangeSliderThumb = ({thumbFor}: { thumbFor: 'valueFrom' | 'valueTo' }) => 
       style={posThumb}
       ref={thumbRef}
       className={styles.thumb}>
-      {isTooltip ? <div className={styles.thumb__tooltip}>{getStore[thumbFor]}</div> : null}
+      {isTooltip ? <div className={styles.thumb__tooltip}>{value}</div> : null}
     </div>
   );
 }
 
 const RangeSliderRail = () => {
+  console.count('rail');
   const [styles, rangeSliderId] = useContext(Context);
-  const {getStore} = useRangeSliderStore(rangeSliderId);
-  const {isVertical, isRange, minValue, maxValue, valueFrom, valueTo} = getStore;
+  const [minValue, maxValue, valueFrom, valueTo] =
+    mapRangeSliderSelector<number>(rangeSliderId, ['minValue', 'maxValue', 'valueFrom', 'valueTo']);
+  const [isVertical, isRange] = mapRangeSliderSelector<boolean>(rangeSliderId, ['isVertical', 'isRange']);
 
   const posToPercent = (maxValue - minValue) / 100;
   const positionFrom = (valueFrom - minValue) / posToPercent;
@@ -82,10 +87,12 @@ const RangeSliderRail = () => {
 }
 
 const RangeSliderScale = () => {
-  console.count('range-slider-scale')
+  console.count('scale')
   const [styles, rangeSliderId] = useContext(Context);
-  const {getStore, setStore} = useRangeSliderStore(rangeSliderId);
-  const {minValue, maxValue, isRange, isVertical} = getStore;
+  const [minValue, maxValue] = mapRangeSliderSelector<number>(rangeSliderId, ['minValue', 'maxValue']);
+  const [isVertical, isRange] = mapRangeSliderSelector<boolean>(rangeSliderId, ['isVertical', 'isRange']);
+  const [setValueFrom, setValueTo] = useMapRangeSliderDispatch(rangeSliderId, ['valueFrom', 'valueTo']);
+
 
   const subdivision = <span className={styles.scale__subdivision}/>;
   const division = <div className={styles.scale__division}>
@@ -108,10 +115,10 @@ const RangeSliderScale = () => {
     }
     const value = position * posToPercent + minValue;
     if (isRange) {
-      toggle ? setStore.valueFrom(value) : setStore.valueTo(value);
+      toggle ? setValueFrom(value) : setValueTo(value);
       setToggle(!toggle);
     } else {
-      setStore.valueFrom(value);
+      setValueFrom(value);
       setToggle(true);
     }
   }
@@ -145,15 +152,15 @@ const RangeSliderScale = () => {
 
 const RangeSlider = ({rangeSliderId}: TRangeSliderId) => {
   console.count('range-slider');
-  const {isVertical} = useRangeSliderStoreProp('isVertical', rangeSliderId);
-  const {isScale} = useRangeSliderStoreProp('isScale', rangeSliderId);
+  const [isVertical, isScale] = mapRangeSliderSelector<boolean>(rangeSliderId, ['isVertical', 'isScale']);
+
   const styles = isVertical ? stylesVer : stylesHor;
-  const scale = useMemo(() => <RangeSliderScale/>, []);
+
   return (
     <Context.Provider value={[styles, rangeSliderId]}>
       <div className={styles.slider}>
         <RangeSliderRail/>
-        {isScale ? scale : null}
+        {isScale ? <RangeSliderScale/> : null}
       </div>
     </Context.Provider>
   );

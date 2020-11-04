@@ -1,23 +1,14 @@
+type TRangeSliderStateKeysNumber = 'minValue' | 'maxValue' | 'valueFrom' | 'valueTo' | 'stepSize';
+type TRangeSliderStateKeysBoolean = 'isRange' | 'isTooltip' | 'isScale' | 'isVertical';
+type TRangeSliderStateKeys = TRangeSliderStateKeysNumber | TRangeSliderStateKeysBoolean;
+
 type TRangeSliderState = {
-  minValue: number,
-  maxValue: number,
-  valueFrom: number,
-  valueTo: number,
-  stepSize: number,
-  isRange: boolean,
-  isTooltip: boolean,
-  isScale: boolean,
-  isVertical: boolean,
+  [P in TRangeSliderStateKeys]: P extends TRangeSliderStateKeysNumber ? number : P extends TRangeSliderStateKeysBoolean ? boolean : null;
 };
 
-type TRangeSliderId = {rangeSliderId: number}
-
-type TRangeSliderStateKeys = keyof TRangeSliderState;
+type TRangeSliderId = { rangeSliderId: number }
 
 type TRangeSliderAction = {
   type: TRangeSliderStateKeys,
   value: number | boolean,
 }
-
-type TRangeSliderSetStore = { [P in TRangeSliderStateKeys]: (prop: number | boolean) => void };
-type TRangeSliderStore = {getStore: TRangeSliderState, setStore: TRangeSliderSetStore}

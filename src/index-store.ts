@@ -18,7 +18,7 @@ const rootState = {
     {...defaultState, valueFrom: 10, valueTo: 90, isVertical: true, maxValue: 100},
     {...defaultState, isTooltip: true, isScale: true, isRange: true, maxValue: 10},
     {...defaultState}
-    ],
+  ],
 }
 
 const rootReducer = (appState: TRootState = rootState, action: TRootAction) => {
@@ -32,36 +32,19 @@ const rootReducer = (appState: TRootState = rootState, action: TRootAction) => {
   }
 }
 
-const useRangeSliderStore = (id: number) => {
-  const getStore = useSelector((store: TRootState) => store.rangeSlider[id]);
-  const dispatch = useDispatch();
-
-  function mapDispatchToProps(prop: TRangeSliderStateKeys) {
-    return (value: number | boolean) => dispatch({type: 'rangeSlider', id, value: {type: prop, value}});
-  }
-
-  const setStore = {
-    minValue: mapDispatchToProps('minValue'),
-    maxValue: mapDispatchToProps('maxValue'),
-    valueFrom: mapDispatchToProps('valueFrom'),
-    valueTo: mapDispatchToProps('valueTo'),
-    stepSize: mapDispatchToProps('stepSize'),
-    isRange: mapDispatchToProps('isRange'),
-    isTooltip: mapDispatchToProps('isTooltip'),
-    isScale: mapDispatchToProps('isScale'),
-    isVertical: mapDispatchToProps('isVertical'),
-  }
-  return {getStore, setStore};
-}
-
-const useRangeSliderStoreProp = (prop: TRangeSliderStateKeys, id: number) => {
-  const dispatch = useDispatch();
-  return {
-    [prop]: useSelector((store: TRootState) => store.rangeSlider[id][prop]),
-    [`${prop}Set`]: (value: number | boolean) => dispatch({type: 'rangeSlider', id, value: {type: prop, value}}),
-  }
-}
-
 const store = createStore(rootReducer, rootState);
 
-export {store as default, useRangeSliderStore, useRangeSliderStoreProp};
+function mapRangeSliderSelector<T extends number | boolean>(id: number, props: TRangeSliderStateKeys[]) {
+  return props.map((item: TRangeSliderStateKeys) => {
+    return useSelector((store: TRootState) => store.rangeSlider[id][item]) as T;
+  });
+}
+
+const useMapRangeSliderDispatch = (id: number, props: TRangeSliderStateKeys[]) => {
+  const dispatch = useDispatch();
+  return props.map((item: TRangeSliderStateKeys) => {
+    return (value: number | boolean) => dispatch({type: 'rangeSlider', id, value: {type: item, value}});
+  });
+}
+
+export {store as default, mapRangeSliderSelector, useMapRangeSliderDispatch};

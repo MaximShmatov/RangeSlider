@@ -1,11 +1,11 @@
 // <reference types="react-scripts" />
 declare module '*.module.sass';
 
-type TRootState = {
-  rangeSlider: TRangeSliderState[],
-}
+type TRootStateKeys = 'rangeSlider';
 
-type TRootStateKeys = keyof TRootState;
+type TRootState = {
+  [P in TRootStateKeys]: TRangeSliderState[];
+}
 
 type TRootAction = {
   type: TRootStateKeys,

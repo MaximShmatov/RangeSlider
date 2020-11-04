@@ -8,6 +8,7 @@ import './index.sass';
 
 ReactDOM.render(
   <React.StrictMode>
+    {console.count('index')}
     <Provider store={store}>
       <ControlPanel rangeSliderId={0}/>
       <ControlPanel rangeSliderId={1}/>

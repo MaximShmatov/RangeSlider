@@ -1,32 +1,34 @@
 import React, {useState, useEffect, useMemo} from 'react';
-import {useRangeSliderStore} from '../index-store';
+import {useMapRangeSliderDispatch, mapRangeSliderSelector} from '../index-store';
 import RangeSlider from '../range-slider/range-slider';
 import './control-panel.sass';
 
 const ControlPanel = ({rangeSliderId}: TRangeSliderId) => {
   console.count('control');
-  const {getStore, setStore} = useRangeSliderStore(rangeSliderId);
 
-  const [minValueState, setMinValueState] = useState(getStore.minValue);
-  const [maxValueState, setMaxValueState] = useState(getStore.maxValue);
-  const [valueFromState, setValueFromState] = useState(getStore.valueFrom);
-  const [valueToState, setValueToState] = useState(getStore.valueTo);
-  const [stepSizeState, setStepSizeState] = useState(getStore.stepSize);
+  const [minValue, maxValue, valueFrom, valueTo, stepSize] =
+    mapRangeSliderSelector<number>(rangeSliderId, ['minValue','maxValue', 'valueFrom', 'valueFrom', 'stepSize']);
+  const [isRange, isTooltip, isScale, isVertical] =
+    mapRangeSliderSelector<boolean>(rangeSliderId, ['isRange', 'isTooltip', 'isScale', 'isVertical']);
+  const [setMinValue, setMaxValue, setValueFrom, setValueTo, setStepSize, setIsRange, setIsTooltip, setIsScale, setIsVertical] =
+    useMapRangeSliderDispatch(
+      rangeSliderId,
+      ['minValue', 'maxValue', 'valueFrom', 'valueTo', 'stepSize', 'isRange', 'isTooltip', 'isScale', 'isVertical']
+    );
 
-  const range = () => {
-    if (getStore.isRange) {
-      return valueToState - valueFromState;
-    }
-    return valueFromState;
-  }
+  const [minValueState, setMinValueState] = useState(minValue);
+  const [maxValueState, setMaxValueState] = useState(maxValue);
+  const [valueFromState, setValueFromState] = useState(valueFrom);
+  const [valueToState, setValueToState] = useState(valueTo);
+  const [stepSizeState, setStepSizeState] = useState(stepSize);
 
   useEffect(() => {
-    setMinValueState(getStore.minValue);
-    setMaxValueState(getStore.maxValue);
-    setValueFromState(getStore.valueFrom);
-    setValueToState(getStore.valueTo);
-    setStepSizeState(getStore.stepSize);
-  }, [getStore.minValue, getStore.maxValue, getStore.valueFrom, getStore.valueTo, getStore.stepSize]);
+    setMinValueState(minValue);
+    setMaxValueState(maxValue);
+    setValueFromState(valueFrom);
+    setValueToState(valueTo);
+    setStepSizeState(stepSize);
+  }, [minValue, maxValue, valueFrom, valueTo, stepSize]);
 
   return (
     <form className="control">
@@ -46,8 +48,8 @@ const ControlPanel = ({rangeSliderId}: TRangeSliderId) => {
               setMinValueState(Number(evt.target.value));
             }}
             onBlur={() => {
-              setStore.minValue(minValueState);
-              setMinValueState(getStore.minValue);
+              setMinValue(minValueState);
+              setMinValueState(minValue);
             }}
           />
           Min value
@@ -59,8 +61,8 @@ const ControlPanel = ({rangeSliderId}: TRangeSliderId) => {
             value={maxValueState}
             onChange={evt => setMaxValueState(Number(evt.target.value))}
             onBlur={() => {
-              setStore.maxValue(maxValueState);
-              setMaxValueState(getStore.maxValue);
+              setMaxValue(maxValueState);
+              setMaxValueState(maxValue);
             }}
           />
           Max value
@@ -72,8 +74,8 @@ const ControlPanel = ({rangeSliderId}: TRangeSliderId) => {
             value={valueFromState}
             onChange={evt => setValueFromState(Number(evt.target.value))}
             onBlur={() => {
-              setStore.valueFrom(valueFromState);
-              setValueFromState(getStore.valueFrom);
+              setValueFrom(valueFromState);
+              setValueFromState(valueFrom);
             }}
           />
           Value from
@@ -85,8 +87,8 @@ const ControlPanel = ({rangeSliderId}: TRangeSliderId) => {
             value={valueToState}
             onChange={evt => setValueToState(Number(evt.target.value))}
             onBlur={() => {
-              setStore.valueTo(valueToState);
-              setValueToState(getStore.valueTo);
+              setValueTo(valueToState);
+              setValueToState(valueTo);
             }}
           />
           Value to
@@ -98,8 +100,8 @@ const ControlPanel = ({rangeSliderId}: TRangeSliderId) => {
             value={stepSizeState}
             onChange={evt => setStepSizeState(Number(evt.target.value))}
             onBlur={() => {
-              setStore.stepSize(stepSizeState);
-              setStepSizeState(getStore.stepSize);
+              setStepSize(stepSizeState);
+              setStepSizeState(stepSize);
             }}
           />
           Step size
@@ -108,8 +110,8 @@ const ControlPanel = ({rangeSliderId}: TRangeSliderId) => {
           <input
             className="control__is-vertical"
             type="checkbox"
-            checked={getStore.isVertical}
-            onChange={evt => setStore.isVertical(Boolean(evt.target.checked))}
+            checked={isVertical}
+            onChange={evt => setIsVertical(Boolean(evt.target.checked))}
           />
           Is vertical
         </label>
@@ -117,8 +119,8 @@ const ControlPanel = ({rangeSliderId}: TRangeSliderId) => {
           <input
             className="control__is-range"
             type="checkbox"
-            checked={getStore.isRange}
-            onChange={evt => setStore.isRange(Boolean(evt.target.checked))}
+            checked={isRange}
+            onChange={evt => setIsRange(Boolean(evt.target.checked))}
           />
           Is range
         </label>
@@ -126,8 +128,8 @@ const ControlPanel = ({rangeSliderId}: TRangeSliderId) => {
           <input
             className="control__is-tooltip"
             type="checkbox"
-            checked={getStore.isTooltip}
-            onChange={evt => setStore.isTooltip(Boolean(evt.target.checked))}
+            checked={isTooltip}
+            onChange={evt => setIsTooltip(Boolean(evt.target.checked))}
           />
           Is tooltip
         </label>
@@ -135,14 +137,14 @@ const ControlPanel = ({rangeSliderId}: TRangeSliderId) => {
           <input
             className="control__is-scale"
             type="checkbox"
-            checked={getStore.isScale}
-            onChange={evt => setStore.isScale(Boolean(evt.target.checked))}
+            checked={isScale}
+            onChange={evt => setIsScale(Boolean(evt.target.checked))}
           />
           Is scale
         </label>
         <label className="control__panel-item">
           <span className="control__range">
-            {range()}
+            {isRange ? valueToState - valueFromState : valueFromState}
           </span>
           Range
         </label>
