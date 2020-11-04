@@ -4,8 +4,6 @@ import RangeSlider from '../range-slider/range-slider';
 import './control-panel.sass';
 
 const ControlPanel = ({rangeSliderId}: TRangeSliderId) => {
-  console.count('control');
-
   const [minValue, maxValue, valueFrom, valueTo, stepSize] =
     mapRangeSliderSelector<number>(rangeSliderId, ['minValue','maxValue', 'valueFrom', 'valueFrom', 'stepSize']);
   const [isRange, isTooltip, isScale, isVertical] =

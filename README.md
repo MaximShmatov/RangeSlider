@@ -1,6 +1,6 @@
 # Component Range Slider
 
-[Демонстрационная страница компонента](https://github.com/facebook/create-react-app).
+[Демонстрационная страница компонента](https://maximshmatov.github.io/RangeSliderComponent/).
 
 ## Скрипты
 

@@ -6,7 +6,6 @@ import stylesVer from './range-slider-ver.module.sass';
 const Context = createContext(stylesHor);
 
 const RangeSliderThumb = ({thumbFor}: { thumbFor: 'valueFrom' | 'valueTo' }) => {
-  console.count(`thumb-${thumbFor}`);
   const [styles, rangeSliderId] = useContext(Context);
   const [minValue, maxValue, value] =
     mapRangeSliderSelector<number>(rangeSliderId, ['minValue', 'maxValue', thumbFor]);
@@ -57,7 +56,6 @@ const RangeSliderThumb = ({thumbFor}: { thumbFor: 'valueFrom' | 'valueTo' }) => 
 }
 
 const RangeSliderRail = () => {
-  console.count('rail');
   const [styles, rangeSliderId] = useContext(Context);
   const [minValue, maxValue, valueFrom, valueTo] =
     mapRangeSliderSelector<number>(rangeSliderId, ['minValue', 'maxValue', 'valueFrom', 'valueTo']);
@@ -87,7 +85,6 @@ const RangeSliderRail = () => {
 }
 
 const RangeSliderScale = () => {
-  console.count('scale')
   const [styles, rangeSliderId] = useContext(Context);
   const [minValue, maxValue] = mapRangeSliderSelector<number>(rangeSliderId, ['minValue', 'maxValue']);
   const [isVertical, isRange] = mapRangeSliderSelector<boolean>(rangeSliderId, ['isVertical', 'isRange']);
@@ -151,7 +148,6 @@ const RangeSliderScale = () => {
 };
 
 const RangeSlider = ({rangeSliderId}: TRangeSliderId) => {
-  console.count('range-slider');
   const [isVertical, isScale] = mapRangeSliderSelector<boolean>(rangeSliderId, ['isVertical', 'isScale']);
 
   const styles = isVertical ? stylesVer : stylesHor;
