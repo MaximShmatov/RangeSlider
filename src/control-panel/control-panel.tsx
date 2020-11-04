@@ -5,7 +5,7 @@ import './control-panel.sass';
 
 const ControlPanel = ({rangeSliderId}: TRangeSliderId) => {
   const [minValue, maxValue, valueFrom, valueTo, stepSize] =
-    mapRangeSliderSelector<number>(rangeSliderId, ['minValue','maxValue', 'valueFrom', 'valueFrom', 'stepSize']);
+    mapRangeSliderSelector<number>(rangeSliderId, ['minValue','maxValue', 'valueFrom', 'valueTo', 'stepSize']);
   const [isRange, isTooltip, isScale, isVertical] =
     mapRangeSliderSelector<boolean>(rangeSliderId, ['isRange', 'isTooltip', 'isScale', 'isVertical']);
   const [setMinValue, setMaxValue, setValueFrom, setValueTo, setStepSize, setIsRange, setIsTooltip, setIsScale, setIsVertical] =
