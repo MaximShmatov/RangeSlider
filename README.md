@@ -1,19 +1,12 @@
-# Component Range Slider
-
-[Демонстрационная страница компонента](https://maximshmatov.github.io/RangeSliderComponent/).
+Range Slider React Component - [Посмотреть](https://maximshmatov.github.io/RangeSliderComponent/)
+====
 
 ## Скрипты
-
-Кманда запуска из какталога проекта:
 
 ### `npm start`
 
 Запускает проект в режиме разработки.\
-Откройте страницу с адресом: [http://localhost:3000](http://localhost:3000).
-
-### `npm test`
-
-Запускает тестирование в интерактивном режиме.
+Для просмотра откройте страницу: [http://localhost:3000](http://localhost:3000).
 
 ### `npm run build`
 
@@ -23,5 +16,4 @@
 Цель проекта - компонент слайдера диапазона.\
 Технологии проекта - react, redux, typescript.
 
-В проекте предусмотрена демонстрационная страница с панелью управления слайдером.
 
