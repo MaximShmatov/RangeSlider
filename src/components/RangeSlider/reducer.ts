@@ -10,7 +10,7 @@ const defaultState = {
   isVertical: false,
 }
 
-const rangeSliderReducer = (currentState: TRangeSliderState = defaultState, action: TRangeSliderAction) => {
+const reducer = (currentState: TRangeSliderState = defaultState, action: TRangeSliderAction) => {
   const state = {...currentState};
   switch (action.type) {
     case 'isRange':
@@ -123,4 +123,4 @@ const rangeSliderReducer = (currentState: TRangeSliderState = defaultState, acti
   }
 };
 
-export {rangeSliderReducer as default, defaultState};
+export {reducer as default, defaultState};

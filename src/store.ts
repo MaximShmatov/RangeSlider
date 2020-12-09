@@ -1,6 +1,6 @@
 import {createStore} from '@reduxjs/toolkit';
 import {useDispatch, useSelector} from 'react-redux';
-import rangeSliderReducer, {defaultState} from './range-slider/range-slider-reducer';
+import rangeSliderReducer, {defaultState} from './components/RangeSlider/reducer';
 
 const rootState = {
   rangeSlider: [

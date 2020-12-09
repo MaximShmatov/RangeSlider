@@ -1,7 +1,7 @@
 import React, {useState, useEffect, useMemo} from 'react';
-import {useMapRangeSliderDispatch, mapRangeSliderSelector} from '../index-store';
-import RangeSlider from '../range-slider/range-slider';
-import './control-panel.sass';
+import {useMapRangeSliderDispatch, mapRangeSliderSelector} from '../../store';
+import RangeSlider from '../RangeSlider/RangeSlider';
+import './styles.sass';
 
 const ControlPanel = ({rangeSliderId}: TRangeSliderId) => {
   const [minValue, maxValue, valueFrom, valueTo, stepSize] =

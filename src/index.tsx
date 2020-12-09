@@ -1,8 +1,8 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import {Provider} from 'react-redux';
-import store from './index-store';
-import ControlPanel from './control-panel/control-panel';
+import { Provider } from 'react-redux';
+import store from './store';
+import ControlPanel from './components/ControlPanel/ControlPanel';
 import './index.sass';
 
 ReactDOM.render(

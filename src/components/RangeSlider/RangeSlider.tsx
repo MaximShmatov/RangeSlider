@@ -1,7 +1,7 @@
 import React, {createContext, useContext, useRef, useState} from 'react';
-import {mapRangeSliderSelector, useMapRangeSliderDispatch} from '../index-store';
-import stylesHor from './range-slider-hor.module.sass';
-import stylesVer from './range-slider-ver.module.sass';
+import {mapRangeSliderSelector, useMapRangeSliderDispatch} from '../../store';
+import stylesHor from './styles-hor.module.sass';
+import stylesVer from './styles-ver.module.sass';
 
 const Context = createContext(stylesHor);
 
