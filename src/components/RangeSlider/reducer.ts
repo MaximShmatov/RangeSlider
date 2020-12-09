@@ -15,8 +15,13 @@ const reducer = (currentState: TRangeSliderState = defaultState, action: TRangeS
   switch (action.type) {
     case 'isRange':
       state.isRange = action.value as boolean;
-      if (action.value && state.valueTo < state.valueFrom) {
-        state.valueTo = state.valueFrom;
+      if (action.value) {
+        if (state.valueTo > state.maxValue) {
+          state.valueTo = state.maxValue;
+        }
+        if (state.valueTo < state.valueFrom) {
+          state.valueTo = state.valueFrom;
+        }
       }
       return state;
     case 'isTooltip':
