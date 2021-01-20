@@ -1,4 +1,4 @@
-Range Slider React Component - [Посмотреть](https://maximshmatov.github.io/RangeSliderComponent/)
+Range Slider React Component - [Посмотреть](https://maximshmatov.github.io/RangeSlider/)
 ====
 
 ## Скрипты
