@@ -97,13 +97,13 @@ const sliderSlice = createSlice({
     },
 
     setIsRange(state, action) {
-      state.isRange = action.payload;
+      const isRange = action.payload;
       let { maxValue, valueFrom, valueTo } = state;
-      if (action.payload) {
+      if (isRange) {
         if (valueTo > maxValue) valueTo = maxValue;
         if (valueTo < valueFrom) valueTo = valueFrom;
       }
-      return {...state, maxValue, valueFrom, valueTo};
+      return {...state, maxValue, valueFrom, valueTo, isRange};
     },
 
     setIsVertical(state, action) {
